@@ -2,8 +2,9 @@ import { Button, Flex, Splitter, Switch } from "antd";
 import SkipFilter from "../Filters/SkipFilters";
 import SelectedSkipSection from "../SelectedSkipSection/SelectedSkipSection";
 import SkipTable from "../Table/SkipTable";
-import TopLabel from "../TopLabel/TopLabel";
+// import TopLabel from "../TopLabel/TopLabel";
 import { useSkipPageCtx } from "../../hooks/useSkipCtx";
+import ProductGrid from "../ProductGrid/ProductGrid";
 
 const Layout = () => {
   const {
@@ -17,8 +18,8 @@ const Layout = () => {
   } = useSkipPageCtx();
 
   return (
-    <div style={{ height: "100%", width: "100%" }}>
-      <TopLabel />
+    <div style={{ height: "100%", width: "100%", flex: 1, overflow: "auto" }}>
+      {/* <TopLabel /> */}
       {layout === "table" ? (
         <SkipTable />
       ) : (
@@ -31,15 +32,11 @@ const Layout = () => {
         >
           <Splitter.Panel
             size={left}
-            resizable={enabled}
             style={{ padding: 20 }}
+            resizable={enabled}
             min="20%"
             max="80%"
           >
-            <div>Proposal Builder View</div>
-          </Splitter.Panel>
-          <Splitter.Panel size={right} style={{ padding: 20 }}>
-            {/* {children} */}
             <Flex vertical gap="middle" justify="space-between">
               <Switch
                 value={enabled}
@@ -50,6 +47,9 @@ const Layout = () => {
               <Button onClick={onResetSplitter}>Reset</Button>
               <SkipFilter />
             </Flex>
+          </Splitter.Panel>
+          <Splitter.Panel size={right} style={{ padding: 20 }}>
+            <ProductGrid />
           </Splitter.Panel>
         </Splitter>
       )}

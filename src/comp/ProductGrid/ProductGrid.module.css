@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--xlg-pad);
-  padding: var(--xlg-pad);
+  /* padding: var(--xlg-pad); */
 }
 
 @media (min-width: 640px) {

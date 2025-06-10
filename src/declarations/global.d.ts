@@ -1,3 +1,22 @@
+// vite-env.d.ts or globals.d.ts
+declare module "*.css" {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+// declare module "*.module.css" {
+//   const classes: { [key: string]: string };
+//   export default classes;
+// }
+
+declare module "*.svg" {
+  const src: string;
+  export default src;
+}
+declare module "*.webp" {
+  const src: string;
+  export default src;
+}
+
 type SetStateFn<D> = React.Dispatch<React.SetStateAction<D>>;
 
 /* Data Models */

@@ -1,16 +1,10 @@
-import ProductGrid from "../ProductGrid/ProductGrid";
+import Layout from "../Layout/Layout";
 
 import styles from "./AllSkips.module.css";
 
 const AllSkips = () => {
-  return (
-    <div className={styles.all_skips}>
-      <div>
-        <ProductGrid />
-      </div>
-      <div>filters</div>
-    </div>
-  );
+  return <Layout />;
+  // return <div className={styles.all_skips}></div>;
 };
 
 export default AllSkips;

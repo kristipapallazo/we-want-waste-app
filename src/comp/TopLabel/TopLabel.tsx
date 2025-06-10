@@ -1,5 +1,5 @@
 import { Flex } from "antd";
-import BreadcrumbSteps from "../BreadcrumbSteps/BreadcrumbSteps";
+// import BreadcrumbSteps from "../BreadcrumbSteps/BreadcrumbSteps";
 import SegmentedLayout from "../SegmentLayout/SegmentedLayout";
 
 const boxStyle: React.CSSProperties = {
@@ -11,7 +11,7 @@ const boxStyle: React.CSSProperties = {
 const TopLabel = () => {
   return (
     <Flex style={boxStyle} justify="space-between" align="center">
-      <BreadcrumbSteps />
+      {/* <BreadcrumbSteps /> */}
       <SegmentedLayout />
     </Flex>
   );

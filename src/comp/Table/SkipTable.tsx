@@ -45,7 +45,7 @@ const SkipTable = () => {
   };
 
   return (
-    <div style={{ height: "200px", width: "100%" }}>
+    <div style={{ height: "200px", width: "100%", padding: 20 }}>
       <AgGridReact
         // theme={themeBalham}
         rowData={rowData}

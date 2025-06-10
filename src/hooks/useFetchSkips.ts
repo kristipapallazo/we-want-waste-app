@@ -1,16 +1,20 @@
 import AxiosClient from "../client/AxiosClient";
 
-export const fetchSkips = async (search: string): Promise<Skips> => {
-  if (!search) return [];
+export const fetchSkips = async (
+  postcode?: string,
+  area?: string
+): Promise<Skips> => {
   try {
     const { data } = await AxiosClient.get("/skips/by-location", {
       params: {
-        postcode: search, // assuming search is postcode here
-        area: "Lowestoft", // or make this dynamic too
+        postcode: postcode || "NR32",
+        area: area || "Lowestoft",
       },
     });
+    console.log("data", data);
     return data || [];
   } catch (error) {
+    console.log("error", error);
     return [];
   }
 };

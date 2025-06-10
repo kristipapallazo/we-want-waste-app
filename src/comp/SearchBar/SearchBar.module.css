@@ -7,4 +7,5 @@
   gap: var(-m-pad);
   min-height: 200px;
   border-bottom: var(--main-border);
+  flex-shrink: 0;
 }

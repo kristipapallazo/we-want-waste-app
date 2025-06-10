@@ -2,7 +2,7 @@ import { createContext, useState, ReactNode, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSkips } from "../hooks/useFetchSkips";
 
-const initialSize: Sizes = ["75%", "25%"];
+const initialSize: Sizes = ["25%", "75%"];
 const initialLayout: Layout = "grid";
 const initialFilters: Filters = {
   size: null,
@@ -86,8 +86,8 @@ const SkipPageCtxProvider: React.FC<Props> = ({ children }) => {
     error,
   } = useQuery({
     queryKey: ["skips", search],
-    queryFn: () => fetchSkips(search),
-    enabled: !!search,
+    queryFn: () => fetchSkips(),
+    enabled: true,
     staleTime: 5 * 60 * 1000,
   });
 
@@ -123,12 +123,12 @@ const SkipPageCtxProvider: React.FC<Props> = ({ children }) => {
     if (filters.postcode)
       filtered = filtered.filter((s) => s.postcode.includes(filters.postcode));
 
-    if (filters.allowed_on_road !== undefined)
+    if (filters.allowed_on_road)
       filtered = filtered.filter(
         (s) => s.allowed_on_road === filters.allowed_on_road
       );
 
-    if (filters.allowes_heavy_waste !== undefined)
+    if (filters.allowes_heavy_waste)
       filtered = filtered.filter(
         (s) => s.allows_heavy_waste === filters.allowes_heavy_waste
       );

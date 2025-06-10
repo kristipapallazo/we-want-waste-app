@@ -3,15 +3,20 @@ import { useSkipPageCtx } from "../../hooks/useSkipCtx";
 import MainSearch from "../../UI/AntD/MainSearch";
 
 import styles from "./SearchBar.module.css";
+import SegmentedLayout from "../SegmentLayout/SegmentedLayout";
 
 const SearchBar: React.FC = () => {
   const { search, setSearch } = useSkipPageCtx();
 
-  const onSearch: SearchProps["onSearch"] = (value) => setSearch(value);
+  const onSearch: SearchProps["onSearch"] = (value) => {
+    console.log("value", value);
+    setSearch(value);
+  };
 
   return (
     <div className={styles.cont}>
       <MainSearch value={search} onSearch={onSearch} />
+      <SegmentedLayout />
       {/* <button className="">
         <span className="">Filter</span>
       </button> */}

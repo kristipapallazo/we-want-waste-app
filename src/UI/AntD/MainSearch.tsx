@@ -1,16 +1,22 @@
 import { Input } from "antd";
-// import { AudioOutlined } from "@ant-design/icons";
-// import type { GetProps } from "antd";
-import { FC } from "react";
-import { SearchProps } from "antd/es/input";
+import { FC, useState } from "react";
 
-// type SearchProps = GetProps<typeof Input.Search>;
+import type { GetProps } from "antd";
+
+type SearchProps = GetProps<typeof Input.Search>;
 
 const { Search } = Input;
 
 const MainSearch: FC<SearchProps> = ({ placeholder = "Search", ...props }) => {
+  console.log("props", props);
+  const [search, setSearch] = useState<string>("");
   return (
-    <Search placeholder="input search text" style={{ width: 200 }} {...props} />
+    <Search
+      placeholder="input search text"
+      value={search}
+      style={{ width: 200 }}
+      {...props}
+    />
   );
 };
 
