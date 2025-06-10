@@ -1,0 +1,10 @@
+.all_skips {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* grid-template-columns: 2fr 1fr; */
+  gap: var(m-pad);
+}
+/* todo: add the class properly */
+.all_skips.no_filter {
+  grid-template-columns: 1fr;
+}

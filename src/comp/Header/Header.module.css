@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--sm-pad) var(--m-pad);
+  background-color: var(--main-blue);
+  border-bottom: var(--main-border);
+  flex-shrink: 0;
+}
+.logo_text {
+  color: white;
+}

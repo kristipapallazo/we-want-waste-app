@@ -1,0 +1,34 @@
+type SetStateFn<D> = React.Dispatch<React.SetStateAction<D>>;
+
+/* Data Models */
+
+interface Skip {
+  id: number;
+  size: number;
+  hire_period_days: number;
+  transport_cost?: null | number;
+  per_tonne_cost?: null | number;
+  price_before_vat: number;
+  vat: number;
+  postcode: string;
+  area: strin;
+  forbidden: boolean;
+  created_at: string;
+  updated_at: string;
+  allowed_on_road: boolean;
+  allows_heavy_waste: boolean;
+}
+type Skips = Skip[];
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  rating: number;
+  reviews: number;
+  image: string;
+  badge?: string;
+}
+
+type Products = Product[];
