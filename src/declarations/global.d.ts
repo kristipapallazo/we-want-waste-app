@@ -32,3 +32,16 @@ interface Product {
 }
 
 type Products = Product[];
+
+type Layout = "grid" | "table";
+
+type SelectedSkip = Skip["id"] | null;
+type Sizes = (string | number)[];
+
+interface Filters {
+  size: null | Skip["size"];
+  price: number[];
+  postcode: Skip["postcode"];
+  allowed_on_road: Skip["allowed_on_road"];
+  allowes_heavy_waste: Skip["allows_heavy_waste"];
+}
