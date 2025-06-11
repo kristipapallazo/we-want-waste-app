@@ -14,6 +14,7 @@ function App() {
     <div className="app">
       {/* <ThemeProvider> */}
       <Header />
+
       <SkipPage />
       {/* </ThemeProvider> */}
     </div>

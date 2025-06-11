@@ -6,12 +6,11 @@ const SegmentedLayout = () => {
   const { layout, setLayout } = useSkipPageCtx();
   return (
     <Segmented
-      vertical
+      // vertical
       options={[
-        { value: "table", icon: <BsFillGrid3X3GapFill /> },
-        { value: "Kanban", icon: <BsTable /> },
+        { value: "grid", icon: <BsFillGrid3X3GapFill /> },
+        { value: "table", icon: <BsTable /> },
       ]}
-      //   options={["table", "grid"]}
       value={layout}
       onChange={(value) => {
         setLayout(value as Layout);

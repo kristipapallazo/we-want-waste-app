@@ -1,4 +1,5 @@
-import AllSkips from "../../comp/AllSkips/AllSkips";
+// import AllSkips from "../../comp/AllSkips/AllSkips";
+import StepContent from "../../comp/Content/Content";
 import SearchBar from "../../comp/SearchBar/SearchBar";
 import SkipPageCtxProvider from "../../ctx/SkipPageCtxProvider";
 import { useSkipPageCtx } from "../../hooks/useSkipCtx";
@@ -14,7 +15,8 @@ const SkipContent = () => {
   return (
     <>
       <SearchBar />
-      <AllSkips />
+      <StepContent />
+      {/* <AllSkips /> */}
     </>
   );
 };

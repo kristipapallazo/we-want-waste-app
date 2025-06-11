@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useState, ReactNode, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSkips } from "../hooks/useFetchSkips";
 
@@ -19,42 +19,23 @@ interface DefaultValue {
   setSizes: SetStateFn<Sizes>;
   onResetSplitter: () => void;
   filteredSkips: Skips;
-  setFilteredSkips: SetStateFn<Skips>;
+  search: string;
+  setSearch: SetStateFn<string>;
+  filters: Filters;
+  setFilters: SetStateFn<Filters>;
+  onResetFilters: () => void;
+  onEnableSplitter: () => void;
   selectedSkip: SelectedSkip;
   setSelectedSkip: SetStateFn<SelectedSkip>;
   enabled: boolean;
   setEnabled: SetStateFn<boolean>;
   isMobile: boolean;
   setIsMobile: SetStateFn<boolean>;
-  search: string;
-  setSearch: SetStateFn<string>;
-  filters: Filters;
-  setFilters: SetStateFn<Filters>;
-  onResetFilters: () => void;
-  // skips: Skips | undefined;
   isLoading: boolean;
   error: unknown;
+  currentIndex: number;
+  setCurrentIndex: SetStateFn<number>;
 }
-// const defaultValue: DefaaultValue = {
-//   layout: initialLayout,
-//   setLayout: () => {},
-//   sizes: initialSize,
-//   setSizes: () => {},
-//   onResetSplitter: () => {},
-//   filteredSkips: [],
-//   setFilteredSkips: () => {},
-//   selectedSkip: null,
-//   setSelectedSkip: () => {},
-//   enabled: true,
-//   setEnabled: () => {},
-//   isMobile: true,
-//   setIsMobile: () => {},
-//   search: "",
-//   setSearch: () => {},
-//   filters: initialFilters,
-//   setFilters: () => {},
-//   onResetFilters: () => {},
-// };
 
 export const SkipPageCtx = createContext<DefaultValue | undefined>(undefined);
 
@@ -68,17 +49,16 @@ const SkipPageCtxProvider: React.FC<Props> = ({ children }) => {
   const [layout, setLayout] = useState<Layout>(initialLayout);
   const [selectedSkip, setSelectedSkip] = useState<SelectedSkip>(null);
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [filteredSkips, setFilteredSkips] = useState<Skips>([]);
   const [search, setSearch] = useState<string>("");
   const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [currentIndex, setCurrentIndex] = useState<number>(2);
 
   const onResetSplitter = () => {
     setSizes(initialSize);
+    setEnabled(true);
   };
-
-  const onResetFilters = () => {
-    setFilters(initialFilters);
-  };
+  const onEnableSplitter = () => setEnabled((prev) => !prev);
+  const onResetFilters = () => setFilters(initialFilters);
 
   const {
     data: skips,
@@ -91,54 +71,64 @@ const SkipPageCtxProvider: React.FC<Props> = ({ children }) => {
     staleTime: 5 * 60 * 1000,
   });
 
-  console.log("data: skips, isLoading, error,", skips, isLoading, error);
+  // Memoize filtered skips
+  const filteredSkips = useMemo(() => {
+    if (!skips) return [];
 
-  useEffect(() => {
-    if (!skips) return;
-    let filtered = [...(skips as Skips)];
-    // let filtered = filteredSkips;
+    const normalizedSearch = search.toLowerCase().trim();
 
-    /* filter by search  */
-    if (!!search.toLocaleLowerCase().length) {
-      filtered = filtered.filter((skip) => {
-        const { size } = skip;
-        const name = `${size} Skip`;
+    return skips.filter((skip) => {
+      const {
+        size,
+        price_before_vat,
+        postcode,
+        allowed_on_road,
+        allows_heavy_waste,
+      } = skip;
 
-        return name.toLowerCase().trim().includes(search.toLocaleLowerCase());
-      });
-    } else {
-      filtered = [...skips];
-    }
+      // Filter by search
+      if (normalizedSearch) {
+        const name = `${size} Skip`.toLowerCase();
+        if (!name.includes(normalizedSearch)) return false;
+      }
 
-    if (filters.size)
-      filtered = filtered.filter((s) => s.size === filters.size);
+      // Filter by size
+      if (filters.size && size !== filters.size) return false;
 
-    if (filters.price)
-      filtered = filtered.filter(
-        (s) =>
-          s.price_before_vat >= filters.price[0] &&
-          s.price_before_vat <= filters.price[1]
-      );
+      // Filter by price range
+      if (
+        filters.price &&
+        (price_before_vat < filters.price[0] ||
+          price_before_vat > filters.price[1])
+      )
+        return false;
 
-    if (filters.postcode)
-      filtered = filtered.filter((s) => s.postcode.includes(filters.postcode));
+      // Filter by postcode
+      if (
+        filters.postcode &&
+        !postcode
+          .toLocaleLowerCase()
+          .includes(filters.postcode.toLocaleLowerCase())
+      )
+        return false;
 
-    if (filters.allowed_on_road)
-      filtered = filtered.filter(
-        (s) => s.allowed_on_road === filters.allowed_on_road
-      );
+      // Filter by allowed_on_road
+      if (
+        filters.allowed_on_road &&
+        allowed_on_road !== filters.allowed_on_road
+      )
+        return false;
 
-    if (filters.allowes_heavy_waste)
-      filtered = filtered.filter(
-        (s) => s.allows_heavy_waste === filters.allowes_heavy_waste
-      );
+      // Filter by allows_heavy_waste
+      if (
+        filters.allowes_heavy_waste &&
+        allows_heavy_waste !== filters.allowes_heavy_waste
+      )
+        return false;
 
-    setFilteredSkips(filtered);
-  }, [search, filters]);
-
-  useEffect(() => {
-    setFilteredSkips(skips || []);
-  }, [skips]);
+      return true;
+    });
+  }, [skips, search, filters]);
 
   const val: DefaultValue = {
     layout,
@@ -146,21 +136,23 @@ const SkipPageCtxProvider: React.FC<Props> = ({ children }) => {
     sizes,
     setSizes,
     onResetSplitter,
-    enabled,
-    setEnabled,
-    selectedSkip,
-    setSelectedSkip,
-    isMobile,
-    setIsMobile,
     filteredSkips,
-    setFilteredSkips,
     search,
     setSearch,
     filters,
     setFilters,
     onResetFilters,
+    selectedSkip,
+    setSelectedSkip,
+    enabled,
+    setEnabled,
+    isMobile,
+    setIsMobile,
     isLoading,
     error,
+    onEnableSplitter,
+    currentIndex,
+    setCurrentIndex,
   };
 
   return <SkipPageCtx.Provider value={val}>{children}</SkipPageCtx.Provider>;

@@ -1,10 +1,13 @@
-import { Button, Flex, Splitter, Switch } from "antd";
+import { Button, Flex, Splitter } from "antd";
 import SkipFilter from "../Filters/SkipFilters";
 import SelectedSkipSection from "../SelectedSkipSection/SelectedSkipSection";
 import SkipTable from "../Table/SkipTable";
-// import TopLabel from "../TopLabel/TopLabel";
 import { useSkipPageCtx } from "../../hooks/useSkipCtx";
 import ProductGrid from "../ProductGrid/ProductGrid";
+import { AgGridReact } from "ag-grid-react";
+import { useRef } from "react";
+
+export type GridRef = React.RefObject<AgGridReact<any> | null>;
 
 const Layout = () => {
   const {
@@ -12,22 +15,21 @@ const Layout = () => {
     sizes: [left, right],
     setSizes,
     enabled,
-    setEnabled,
-    onResetSplitter,
     selectedSkip,
   } = useSkipPageCtx();
+  const gridRef = useRef<AgGridReact>(null);
 
   return (
     <div style={{ height: "100%", width: "100%", flex: 1, overflow: "auto" }}>
       {/* <TopLabel /> */}
       {layout === "table" ? (
-        <SkipTable />
+        <SkipTable ref={gridRef} />
       ) : (
         <Splitter
           onResize={setSizes}
           // layout="vertical"
           style={{
-            /* height: 200 ,*/ boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
           }}
         >
           <Splitter.Panel
@@ -37,24 +39,22 @@ const Layout = () => {
             min="20%"
             max="80%"
           >
-            <Flex vertical gap="middle" justify="space-between">
-              <Switch
-                value={enabled}
-                onChange={() => setEnabled(!enabled)}
-                checkedChildren="Enabled"
-                unCheckedChildren="Disabled"
-              />
-              <Button onClick={onResetSplitter}>Reset</Button>
+            <Flex
+              vertical
+              gap="middle"
+              justify="space-between"
+              style={{ height: "100%" }}
+            >
               <SkipFilter />
             </Flex>
           </Splitter.Panel>
           <Splitter.Panel size={right} style={{ padding: 20 }}>
-            <ProductGrid />
+            <ProductGrid gridRef={gridRef} />
           </Splitter.Panel>
         </Splitter>
       )}
 
-      {selectedSkip && <SelectedSkipSection />}
+      {selectedSkip && <SelectedSkipSection gridRef={gridRef} />}
     </div>
   );
 };

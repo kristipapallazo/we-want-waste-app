@@ -54,7 +54,7 @@ type Products = Product[];
 
 type Layout = "grid" | "table";
 
-type SelectedSkip = Skip["id"] | null;
+type SelectedSkip = Skip | null;
 type Sizes = (string | number)[];
 
 interface Filters {

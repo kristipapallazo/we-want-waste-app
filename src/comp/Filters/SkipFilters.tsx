@@ -8,8 +8,9 @@ import {
   Row,
   Col,
   Button,
-  Card,
   Switch,
+  Divider,
+  Typography,
 } from "antd";
 
 import {
@@ -23,6 +24,7 @@ import {
 } from "@ant-design/icons";
 
 const { Option } = Select;
+const { Title } = Typography;
 
 const SkipFilter = () => {
   const {
@@ -30,16 +32,17 @@ const SkipFilter = () => {
     onResetFilters,
     filters: gFilters,
     setFilters: onHandleFiltersUpdate,
+    enabled,
+    onEnableSplitter,
+    onResetSplitter,
   } = useSkipPageCtx();
 
   const [filters, setFilters] = useState(gFilters);
 
   useEffect(() => {
-    /* Todo: check if you need this approach */
     setFilters(gFilters);
   }, [gFilters]);
 
-  // Handle filter changes
   interface Filters {
     size?: string;
     price?: [number, number];
@@ -55,29 +58,60 @@ const SkipFilter = () => {
     setFilters((prev) => ({ ...prev, [changed]: value }));
   };
 
-  // Apply filters
   const applyFilters = useCallback(() => {
     onHandleFiltersUpdate(filters);
   }, [filters]);
 
   return (
-    <Card
-      title={
-        <span>
-          <FilterOutlined /> Filter Skips
-        </span>
-      }
-      bordered={false}
-      style={{ marginBottom: 24, boxShadow: "0 2px 8px #f0f1f2" }}
-      extra={
-        <Button icon={<ReloadOutlined />} onClick={onResetFilters} size="small">
-          Reset
-        </Button>
-      }
+    <div
+      // bordered={false}
+      style={{
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        borderRadius: "12px",
+        padding: "20px",
+        background: "#ffffff",
+        flex: 1,
+      }}
     >
-      <Form layout="vertical" onFinish={applyFilters}>
-        <Row gutter={[16, 8]}>
-          <Col xs={24} sm={12} md={6}>
+      <Row
+        justify="space-between"
+        align="middle"
+        style={{ marginBottom: "16px", flexShrink: 0 }}
+      >
+        <Title level={4} style={{ margin: "0 auto 10px", textAlign: "center" }}>
+          <FilterOutlined /> Filter Skips
+        </Title>
+        <div
+          style={{
+            width: "100%",
+            margin: "0 auto 10px",
+            display: "grid",
+            gridTemplateColumns: "auto auto",
+            gap: "10px",
+          }}
+        >
+          <Button
+            type={enabled ? "primary" : "default"}
+            onClick={onEnableSplitter}
+          >
+            {enabled ? "Enabled" : "Disabled"} Splitter
+          </Button>
+          <Button onClick={onResetSplitter}>Reset Splitter</Button>
+        </div>
+        <Button
+          icon={<ReloadOutlined />}
+          onClick={onResetFilters}
+          size="middle"
+          type="primary"
+          style={{ width: "100%" }}
+        >
+          Reset Filters
+        </Button>
+      </Row>
+
+      <Form layout="vertical" onFinish={applyFilters} style={{ flex: 1 }}>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={24} md={24}>
             <Form.Item
               label={
                 <span>
@@ -99,7 +133,7 @@ const SkipFilter = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} md={8}>
+          <Col xs={24} sm={24} md={24}>
             <Form.Item
               label={
                 <span>
@@ -112,12 +146,14 @@ const SkipFilter = () => {
                 min={0}
                 max={1000}
                 value={filters.price as [number, number]}
-                onChange={(val: [number, number]) => handleChange("price", val)}
+                onChange={(val: number[]) =>
+                  handleChange("price", val as [number, number])
+                }
                 tooltip={{ open: true }}
               />
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} md={6}>
+          <Col xs={24} sm={24} md={24}>
             <Form.Item
               label={
                 <span>
@@ -134,7 +170,10 @@ const SkipFilter = () => {
               />
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} md={4}>
+        </Row>
+        <Divider style={{ margin: "16px 0" }} />{" "}
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={24} md={24}>
             <Form.Item
               label={
                 <span>
@@ -150,7 +189,7 @@ const SkipFilter = () => {
               />
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} md={4}>
+          <Col xs={24} sm={24} md={24}>
             <Form.Item
               label={
                 <span>
@@ -168,19 +207,16 @@ const SkipFilter = () => {
               />
             </Form.Item>
           </Col>
-          <Col
-            xs={24}
-            sm={24}
-            md={4}
-            style={{ display: "flex", alignItems: "end" }}
-          >
-            <Button type="primary" htmlType="submit" block>
-              Apply
-            </Button>
+          <Col xs={24} sm={24} md={24}>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" block>
+                Apply Filters
+              </Button>
+            </Form.Item>
           </Col>
         </Row>
       </Form>
-    </Card>
+    </div>
   );
 };
 

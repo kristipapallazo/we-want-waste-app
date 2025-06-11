@@ -1,23 +1,27 @@
 import { Input } from "antd";
-import { FC, useState } from "react";
+import { FC, memo } from "react";
 
-import type { GetProps } from "antd";
-
-type SearchProps = GetProps<typeof Input.Search>;
+type SearchProps = {
+  value?: string;
+  placeholder?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  style?: React.CSSProperties;
+};
 
 const { Search } = Input;
 
-const MainSearch: FC<SearchProps> = ({ placeholder = "Search", ...props }) => {
-  console.log("props", props);
-  const [search, setSearch] = useState<string>("");
-  return (
-    <Search
-      placeholder="input search text"
-      value={search}
-      style={{ width: 200 }}
-      {...props}
-    />
-  );
-};
+const MainSearch: FC<SearchProps> = memo(
+  ({ value = "", placeholder = "Search", onChange, style, ...props }) => {
+    return (
+      <Search
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        style={{ width: 200, ...style }} // Allow overriding default width
+        {...props}
+      />
+    );
+  }
+);
 
 export default MainSearch;

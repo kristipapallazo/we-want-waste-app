@@ -1,25 +1,22 @@
-import { SearchProps } from "antd/es/input";
-import { useSkipPageCtx } from "../../hooks/useSkipCtx";
-import MainSearch from "../../UI/AntD/MainSearch";
-
-import styles from "./SearchBar.module.css";
+// import { SearchProps } from "antd/es/input";
+// import { useSkipPageCtx } from "../../hooks/useSkipCtx";
+// import MainSearch from "../../UI/AntD/MainSearch";
+import BreadcrumbSteps from "../BreadcrumbSteps/BreadcrumbSteps";
 import SegmentedLayout from "../SegmentLayout/SegmentedLayout";
 
-const SearchBar: React.FC = () => {
-  const { search, setSearch } = useSkipPageCtx();
+import styles from "./SearchBar.module.css";
 
-  const onSearch: SearchProps["onSearch"] = (value) => {
-    console.log("value", value);
-    setSearch(value);
-  };
+const SearchBar: React.FC = () => {
+  // const onChange: SearchProps["onChange"] = (value) => {
+  //   setSearch(value.target.value);
+  // };
 
   return (
     <div className={styles.cont}>
-      <MainSearch value={search} onSearch={onSearch} />
+      {/* <MainSearch value={search} onChange={onChange} /> */}
+      <BreadcrumbSteps />
+
       <SegmentedLayout />
-      {/* <button className="">
-        <span className="">Filter</span>
-      </button> */}
     </div>
   );
 };

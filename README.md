@@ -1,54 +1,41 @@
-# React + TypeScript + Vite
+# We Want Waste App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tech Stack
 
-Currently, two official plugins are available:
+### 1. **React**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- One of the best libraries for developing webs, also it has a good documentation
+- It allows for the creation of reusable components, making the app modular and maintainable.
+- React's virtual DOM ensures efficient updates and rendering, improving performance.
 
-## Expanding the ESLint configuration
+### 2. **TypeScript**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- It provides better code readability and maintainability.
+- It helps catching error faster
+- It helps with autocompletation
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 3. **Ant Design**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Provides a consistent and professional look and feel.
+- Ant Design is a comprehensive UI library with pre-built components that are visually appealing and highly customizable.
+- Has great huge documentation and varios of custom compoents
+- Easy to customize
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 5. **React Context API**
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- Simplifies state management for global data like
+
+### 6. **React Lazy and Suspense**
+
+- Lazy loading improves performance by loading components only when they are needed.
+- It reduces the initial bundle size, leading to faster load times.
+
+### 8. **CSS Modules**
+
+- CSS Modules provide scoped styles, preventing class name collisions.
+- They allow for better maintainability and modularity in styling.
+
+### 10. **Vite (or Create React App)**
+
+- Vite is a fast build tool that provides a better development experience compared to traditional bundlers.
+- It offers instant hot module replacement (HMR) and faster builds.
